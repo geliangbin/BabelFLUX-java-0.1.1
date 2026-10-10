@@ -1,0 +1,87 @@
+spring:
+  application:
+    name: babelflux-backend
+  sql:
+    init:
+      mode: never
+  flyway:
+    enabled: ${FLYWAY_ENABLED:true}
+    locations: classpath:db/migration
+    baseline-on-migrate: ${FLYWAY_BASELINE_ON_MIGRATE:false}
+    baseline-version: 1
+    clean-disabled: true
+    url: ${FLYWAY_URL:${MYSQL_URL:jdbc:h2:mem:babelflux;DB_CLOSE_DELAY=-1}}
+    user: ${FLYWAY_USERNAME:${MYSQL_USERNAME:sa}}
+    password: ${FLYWAY_PASSWORD:${MYSQL_PASSWORD:}}
+  datasource:
+    url: ${MYSQL_URL:jdbc:h2:mem:babelflux;DB_CLOSE_DELAY=-1}
+    username: ${MYSQL_USERNAME:sa}
+    password: ${MYSQL_PASSWORD:}
+    driver-class-name: ${MYSQL_DRIVER:}
+  data:
+    redis:
+      url: ${REDIS_URL:redis://localhost:6379}
+  rabbitmq:
+    addresses: ${RABBITMQ_URL:amqp://localhost:5672}
+  elasticsearch:
+    uris: ${ELASTICSEARCH_URL:http://localhost:9200}
+
+server:
+  port: ${SERVER_PORT:8000}
+
+management:
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+  endpoint:
+    prometheus:
+      access: unrestricted
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  metrics:
+    tags:
+      application: ${spring.application.name}
+
+logging:
+  structured:
+    format:
+      console: ${LOG_STRUCTURED_FORMAT:logstash}
+
+babelflux:
+  api-prefix: /api
+  cors-origins: ${FRONTEND_ORIGINS:http://localhost:5173,http://localhost:5175}
+  require-model-gateway-auth: ${MODEL_GATEWAY_AUTH_REQUIRED:false}
+  allowed-media-hosts: ${ALLOWED_MEDIA_HOSTS:}
+  ffmpeg-path: ${FFMPEG_PATH:ffmpeg}
+  infrastructure:
+    redis-enabled: ${REDIS_ENABLED:false}
+    rabbitmq-enabled: ${RABBITMQ_ENABLED:false}
+    elasticsearch-enabled: ${ELASTICSEARCH_ENABLED:false}
+    elasticsearch-index-replicas: ${ELASTICSEARCH_INDEX_REPLICAS:1}
+    mysql-enabled: ${MYSQL_ENABLED:false}
+  dashscope:
+    api-key: ${DASHSCOPE_API_KEY:}
+    workspace-id: ${DASHSCOPE_WORKSPACE_ID:}
+    base-url: ${DASHSCOPE_HTTP_BASE_URL:https://dashscope.aliyuncs.com/api/v1}
+    websocket-base-url: ${DASHSCOPE_WEBSOCKET_BASE_URL:}
+    request-timeout: ${DASHSCOPE_REQUEST_TIMEOUT_SECONDS:30s}
+    speech-handshake-timeout: ${DASHSCOPE_SPEECH_HANDSHAKE_TIMEOUT_SECONDS:5s}
+    allowed-tts-models: ${DASHSCOPE_ALLOWED_TTS_MODELS:qwen3-tts-flash-realtime}
+    live-translate-model: ${LIVE_TRANSLATE_MODEL:qwen3.5-livetranslate-flash-realtime}
+    live-translate-asr-model: ${LIVE_TRANSLATE_ASR_MODEL:qwen3-asr-flash-realtime}
+    realtime-revision-model: ${REALTIME_REVISION_MODEL:qwen-flash}
+    final-correction-model: ${FINAL_CORRECTION_MODEL:qwen-plus}
+    fast-realtime-revision-model: ${FAST_REALTIME_REVISION_MODEL:qwen-flash}
+    fast-final-correction-model: ${FAST_FINAL_CORRECTION_MODEL:qwen-flash}
+    accurate-realtime-revision-model: ${ACCURATE_REALTIME_REVISION_MODEL:qwen-plus}
+    accurate-final-correction-model: ${ACCURATE_FINAL_CORRECTION_MODEL:qwen-plus}
+    cost-realtime-revision-model: ${COST_REALTIME_REVISION_MODEL:qwen-flash}
+    cost-final-correction-model: ${COST_FINAL_CORRECTION_MODEL:qwen-flash}
+    final-correction-timeout: ${FINAL_CORRECTION_TIMEOUT_SECONDS:30s}
+    realtime-revision-window-segments: ${REALTIME_REVISION_WINDOW_SEGMENTS:4}
+    realtime-revision-max-per-minute: ${REALTIME_REVISION_MAX_PER_MINUTE:6}
+    realtime-queue-frames: ${REALTIME_QUEUE_FRAMES:250}
+    final-correction-batch-size: ${FINAL_CORRECTION_BATCH_SIZE:8}

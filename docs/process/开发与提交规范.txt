@@ -1,0 +1,25 @@
+开发与提交规范（兼容入口）
+版本：v1.1
+
+本文件保留旧路径，现行规范请以以下文件为准：
+1. ../standards/README.md：规范总索引、证据等级、STAR 回帖与最近工作确认。
+2. ../../CONTRIBUTING.md：GitHub Issue、分支、Gitmoji commit、PR、合并与安全规则。
+3. ../standards/architecture.md：分层、依赖方向、事件契约和长文件拆分。
+4. ../standards/java-backend.md：Java 21、Spring Boot、并发、provider 和测试约束。
+5. star-performance-template.md：性能、缺陷和真实联调的实验记录模板。
+
+当前平台是 GitHub，远端仓库为 ZhaoXingPeng/BabelFLUX-java；不要再按历史版本中的
+Gitee API、GITEE_TOKEN 或旧路径操作。代码推送使用本机 SSH key，Issue/PR 描述和评论
+默认使用中文，禁止提交 API key、token、Cookie、私钥、原始音频或真实用户隐私。
+
+最小工作流：
+1. 从最新 main 创建 feat/fix/refactor/docs/test/chore 分支。
+2. 先建立 Issue，再提交单一可验证结果；标题使用：<gitemoji> <type>(<scope>): 中文摘要。
+3. 运行与变更范围匹配的测试；真实百炼、设备和 MySQL/Redis/RabbitMQ/Elasticsearch
+   实验必须记录环境、输入、session/report ID、指标、失败样例和不可外推边界。
+4. PR 描述和评论使用“实验 / 结果 / 结论”或 STAR；性能提供 P50/P95/P99，缺陷提供
+   回归测试及修复前后行为。
+5. 通过审查后使用 rebase-and-merge；禁止改写共享 main，合并后删除远端临时分支。
+
+历史版本的详细内容不再作为操作指南；修改本文件时必须同步检查
+`docs/standards/README.md`、`CONTRIBUTING.md` 和 `.github/pull_request_template.md`。
